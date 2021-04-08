@@ -237,6 +237,23 @@ def start_parameter_server(cluster_dict, make_reward_predictor):
     proc.start()
     return proc
 
+def f(make_reward_predictor, cluster_dict, log_dir, policy_fn, env, seg_pipe, start_policy_training_pipe, episode_vid_queue, ckpt_dir, gen_segments, a2c_params):
+    if make_reward_predictor:
+        reward_predictor = make_reward_predictor('a2c', cluster_dict)
+    else:
+        reward_predictor = None
+    misc_logs_dir = osp.join(log_dir, 'a2c_misc')
+    easy_tf_log.set_dir(misc_logs_dir)
+    learn(
+        policy=policy_fn,
+        env=env,
+        seg_pipe=seg_pipe,
+        start_policy_training_pipe=start_policy_training_pipe,
+        episode_vid_queue=episode_vid_queue,
+        reward_predictor=reward_predictor,
+        ckpt_save_dir=ckpt_dir,
+        gen_segments=gen_segments,
+        **a2c_params)
 
 def start_policy_training(cluster_dict, make_reward_predictor, gen_segments,
                           start_policy_training_pipe, seg_pipe,
@@ -261,25 +278,7 @@ def start_policy_training(cluster_dict, make_reward_predictor, gen_segments,
     ckpt_dir = osp.join(log_dir, 'policy_checkpoints')
     os.makedirs(ckpt_dir)
 
-    def f():
-        if make_reward_predictor:
-            reward_predictor = make_reward_predictor('a2c', cluster_dict)
-        else:
-            reward_predictor = None
-        misc_logs_dir = osp.join(log_dir, 'a2c_misc')
-        easy_tf_log.set_dir(misc_logs_dir)
-        learn(
-            policy=policy_fn,
-            env=env,
-            seg_pipe=seg_pipe,
-            start_policy_training_pipe=start_policy_training_pipe,
-            episode_vid_queue=episode_vid_queue,
-            reward_predictor=reward_predictor,
-            ckpt_save_dir=ckpt_dir,
-            gen_segments=gen_segments,
-            **a2c_params)
-
-    proc = Process(target=f, daemon=True)
+    proc = Process(target=f, daemon=True, args=(make_reward_predictor, cluster_dict, log_dir, policy_fn, env, seg_pipe, start_policy_training_pipe, episode_vid_queue, ckpt_dir, gen_segments, a2c_params))
     proc.start()
     return env, proc
 

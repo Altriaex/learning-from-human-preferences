@@ -31,29 +31,31 @@ you want to use any of the data (checkpoints, preferences) stored in
 
 ### Python setup
 
-To set up an isolated environment and install dependencies, install
-[Pipenv](https://github.com/pypa/pipenv), then just run:
+You might need to install jpeg first with brew.
 
-`$ pipenv install`
+#### Create a virtual environment using Anaconda or other tools.
 
-However, note that TensorFlow must be installed manually. Either:
+```
+conda create -n pick-a-name python=3.7
+```
 
-`$ pipenv run pip install tensorflow`
+Python 3.7 works and Python 3.9 doesn't. Not sure about other versions.
 
-or
+#### Install dependencies
+Install a bunch of dependecies with pip. If you are in China, consider using 3rd-party sources like: *-i https://mirrors.aliyun.com/pypi/simple/*.
 
-`$ pipenv run pip install tensorflow-gpu`
-
-depending on whether you have a GPU. (If you run into problems, try installing
-TensorFlow 1.6.0, which was used for development.)
-
-If you want to run tests, also run:
-
-`$ pipenv install --dev`
-
-Finally, before running any of the scripts, enter the environment with:
-
-`$ pipenv shell`
+```
+pip install tensorflow 
+pip install gym[atari]==0.10.0
+pip install matplotlib
+pip install easy-tf-log
+pip install pickle5
+pip install pyglet --upgrade
+```
+Then install the following environment.
+```
+pip install git+https://github.com/mrahtz/gym-moving-dot
+```
 
 ### Running
 

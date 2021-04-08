@@ -13,6 +13,9 @@ from collections import deque
 import cloudpickle
 import numpy as np
 import tensorflow as tf
+# disable tensorflow2 behavior
+tf.compat.v1.disable_v2_behavior()
+import tensorflow.compat.v1 as tf
 
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter

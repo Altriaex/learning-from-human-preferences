@@ -99,13 +99,18 @@ class TensorBoardOutputFormat(OutputFormat):
         prefix = 'events'
         path = osp.join(osp.abspath(dir), prefix)
         import tensorflow as tf
+        # disable tensorflow2 behavior
+        tf.compat.v1.disable_v2_behavior()
+        import tensorflow.compat.v1 as tf
         from tensorflow.python import pywrap_tensorflow        
         from tensorflow.core.util import event_pb2
         from tensorflow.python.util import compat
+        from tensorflow.python._pywrap_events_writer import EventsWriter
+
         self.tf = tf
         self.event_pb2 = event_pb2
-        self.pywrap_tensorflow = pywrap_tensorflow
-        self.writer = pywrap_tensorflow.EventsWriter(compat.as_bytes(path))
+        #self.pywrap_tensorflow = pywrap_tensorflow
+        self.writer = EventsWriter(compat.as_bytes(path))
 
     def writekvs(self, kvs):
         def summary_val(k, v):

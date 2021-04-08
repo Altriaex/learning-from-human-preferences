@@ -1,4 +1,7 @@
 import tensorflow as tf
+# disable tensorflow2 behavior
+tf.compat.v1.disable_v2_behavior()
+import tensorflow.compat.v1 as tf
 
 """
 Wrappers for TensorFlow's layers integrating batchnorm in the right place.

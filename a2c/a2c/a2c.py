@@ -8,6 +8,9 @@ import easy_tf_log
 import numpy as np
 from numpy.testing import assert_equal
 import tensorflow as tf
+# disable tensorflow2 behavior
+tf.compat.v1.disable_v2_behavior()
+import tensorflow.compat.v1 as tf
 
 from a2c import logger
 from a2c.a2c.utils import (cat_entropy, discount_with_dones,

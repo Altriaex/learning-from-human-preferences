@@ -1,5 +1,8 @@
 import numpy as np
 import tensorflow as tf
+# disable tensorflow2 behavior
+tf.compat.v1.disable_v2_behavior()
+import tensorflow.compat.v1 as tf
 from a2c.a2c.utils import conv, fc, conv_to_fc, batch_to_seq, seq_to_batch, lstm, lnlstm, sample
 
 class LnLstmPolicy(object):

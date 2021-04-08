@@ -2,6 +2,9 @@
 import unittest
 
 import tensorflow as tf
+# disable tensorflow2 behavior
+tf.compat.v1.disable_v2_behavior()
+import tensorflow.compat.v1 as tf
 import termcolor
 import numpy as np
 from numpy import exp, log

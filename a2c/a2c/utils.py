@@ -1,6 +1,9 @@
 import os
 import numpy as np
 import tensorflow as tf
+# disable tensorflow2 behavior
+tf.compat.v1.disable_v2_behavior()
+import tensorflow.compat.v1 as tf
 from collections import deque
 
 def sample(logits):
